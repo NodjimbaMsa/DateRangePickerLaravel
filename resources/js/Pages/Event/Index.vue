@@ -32,7 +32,7 @@ const dateForm = useForm({
     endDate: ""
 });
 
-const dateValue = useForm({
+const dateValue = ref({
     startDate: "",
     endDate: ""
 });
