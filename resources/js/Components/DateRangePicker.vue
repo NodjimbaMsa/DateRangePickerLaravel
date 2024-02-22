@@ -1,27 +1,38 @@
+<template>
+  <div class="connected-calendars">
+    <PrimaryButton @click="toggleVisibility">Filtre des évènements</PrimaryButton>
+    <div class="calendars" v-if="areCalendarsVisible">
+      <Calendar selectedDates="selectedDates"/>
+      <Calendar selectedDates="selectedDates"/>
+    </div>
+  </div>
+</template>
+
 <script setup>
-import { onMounted, ref } from 'vue';
+import { ref, provide } from 'vue';
+import Calendar from './Calendar.vue';
+import PrimaryButton from './PrimaryButton.vue';
 
-const model = defineModel({
-    type: String,
-    required: true,
-});
+const areCalendarsVisible = ref(false);
+const selectedDates = ref([]);
 
-const input = ref(null);
+const toggleVisibility = () => {
+  areCalendarsVisible.value = !areCalendarsVisible.value;
+};
 
-onMounted(() => {
-    if (input.value.hasAttribute('autofocus')) {
-        input.value.focus();
-    }
-});
+provide('selectedDates', selectedDates);
 
-defineExpose({ focus: () => input.value.focus() });
 </script>
 
-<template>
-    <input
-        type="date"
-        class="border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm"
-        v-model="model"
-        ref="input"
-    />
-</template>
+
+<style scoped>
+.connected-calendars {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendars {
+  display: flex;
+}
+</style>

@@ -59,6 +59,7 @@ const editModal = (event) => {
 };**/
 
 const dateRangePickerSubmit = () => {
+    console.log(dateValue.value);
     dateForm.startDate = dateValue.value.startDate;
     dateForm.endDate = dateValue.value.endDate;
     if (dateForm.startDate && dateForm.endDate) {
@@ -137,12 +138,17 @@ function destroy(id) {
                             </div>
                         </div>
                         <form inline @submit.prevent="dateRangePickerSubmit">
-                            <label class="mr-sm-2" for="inline-form-custom-select-pref">Choississez deux dates</label>
                             <div>
-                                <!--<DateRangePicker v-model="dateForm.startDate"></DateRangePicker>
-                                <DateRangePicker v-model="dateForm.endDate"></DateRangePicker> -->
 
-                                <vue-tailwind-datepicker v-model="dateValue"/>
+                                <!--<vue-tailwind-datepicker v-model="dateValue"/>-->
+
+                            <!--<div class="ml-3"><DateRangePicker v-model="dateForm"></DateRangePicker></div>-->
+
+                            <!--<DateRangePicker class="ml-3"/> -->
+
+                            <DateRangePicker v-model:selected-dates="selectedDates" class="ml-3"/>
+                            <p>Date sélectionnée: {{ selectedDate }}</p>
+
 
                                 <PrimaryButton type="submit" :class="{ 'opacity-25': form.processing }"
                                     :disabled="form.processing">
