@@ -49,19 +49,11 @@ const editModal = (event) => {
     form.event_date = event.event_date;
 }
 
-/**const formSubmit = (string) => {
-    if (editMode.value) {
-        form.put(route("events.update", form.id));
-    } else {
-        form.post(route("events.store"));
-    }
-    showModal.value = false;
-};**/
+const selectedDates = ref([]);
 
 const dateRangePickerSubmit = () => {
-    console.log(dateValue.value);
-    dateForm.startDate = dateValue.value.startDate;
-    dateForm.endDate = dateValue.value.endDate;
+    dateForm.startDate = selectedDates.value[0];
+    dateForm.endDate = selectedDates.value[1];
     if (dateForm.startDate && dateForm.endDate) {
         dateForm.get(route("events.getSelected"));
     }
@@ -146,8 +138,8 @@ function destroy(id) {
 
                             <!--<DateRangePicker class="ml-3"/> -->
 
-                            <DateRangePicker v-model:selected-dates="selectedDates" class="ml-3"/>
-                            <p>Date sélectionnée: {{ selectedDate }}</p>
+                            <DateRangePicker v-model="selectedDates" :selected-dates="selectedDates" @update:selected-dates="selectedDates = $event" class="ml-3"/>
+                            <p>Date sélectionnée: {{ selectedDates }}</p>
 
 
                                 <PrimaryButton type="submit" :class="{ 'opacity-25': form.processing }"

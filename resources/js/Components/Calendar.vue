@@ -33,7 +33,7 @@
 </template>
 
 <script setup>
-import { ref, computed, watch, inject } from 'vue';
+import { ref, computed, watch, inject, defineProps, defineEmits } from 'vue';
 
 const props = defineProps({
   selectedDates: {
@@ -41,6 +41,8 @@ const props = defineProps({
     default: () => [],
   },
 });
+
+const emits = defineEmits(['update:selectedDates']);
 
 const currentDate = new Date();
 const selectedYear = ref(currentDate.getFullYear());
@@ -117,6 +119,7 @@ const selectDate = (date) => {
     } else {
       selectedDates.value = [selectedDate];
     }
+    emits('update:selectedDates', selectedDates.value);
   }
 };
 
@@ -144,8 +147,8 @@ const isDateHighlighted = (date, month, year) => {
 
 watch(selectedDates, (newSelectedDates, oldSelectedDates) => {
   // Logique pour mettre à jour le calendrier en réponse aux changements dans les dates sélectionnées
-  console.log('Nouvelles dates sélectionnées :', newSelectedDates);
   console.log('Anciennes dates sélectionnées :', oldSelectedDates);
+  console.log('Nouvelles dates sélectionnées :', newSelectedDates);
   // Mettre à jour le calendrier ou effectuer d'autres actions nécessaires
 });
 
