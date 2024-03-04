@@ -78,7 +78,7 @@ const updateCalendar = () => {
     selectedMonth.value = newMonth;
 };
 
-// Fonction pour sélectionner une date
+// Fonction pour sélectionner une date et mettre à jour la liste des dates sélectionnées
 const selectDate = (date) => {
     if (date !== '') { // Si la date n'est pas vide
         const selectedDate = new Date(selectedYear.value, selectedMonth.value, date); // Création de la date sélectionnée
