@@ -8,7 +8,6 @@ import InputError from "@/Components/InputError.vue";
 import DateRangePicker from "@/Components/DateRangePicker.vue";
 import { Head, Link, useForm } from "@inertiajs/vue3";
 import { ref } from 'vue';
-import VueTailwindDatepicker from "vue-tailwind-datepicker";
 
 const props = defineProps({
     events: {
@@ -21,6 +20,16 @@ const props = defineProps({
     }
 });
 
+// Variable pour contrôler l'affichage du modal
+const showModal = ref(false);
+
+// Variable pour indiquer si l'on modifie ou non l'évènement
+const editMode = ref(false);
+
+// Référence pour stocker les dates sélectionnées
+const selectedDates = ref([]);
+
+// Formulaire principal pour la création ou la mise à jour d'événements
 const form = useForm({
     id: "",
     title: "",
@@ -32,15 +41,7 @@ const dateForm = useForm({
     endDate: ""
 });
 
-const dateValue = ref({
-    startDate: "",
-    endDate: ""
-});
-
-const showModal = ref(false);
-
-const editMode = ref(false);
-
+// Fonction pour ouvrir la modal en mode édition
 const editModal = (event) => {
     showModal.value = true;
     editMode.value = true;
@@ -49,8 +50,7 @@ const editModal = (event) => {
     form.event_date = event.event_date;
 }
 
-const selectedDates = ref([]);
-
+// Fonction pour soumettre la plage de dates et filtrer les événements à venir sur l'intervalle choisi
 const dateRangePickerSubmit = () => {
     dateForm.startDate = selectedDates.value[0];
     dateForm.endDate = selectedDates.value[1];
@@ -82,8 +82,9 @@ function destroy(id) {
                     <div class="items-center justify-between">
                         <h3 class="text-2xl font-semibold leading-tight text-gray-800">Formulaire d'un évènement</h3>
 
-                        <form @submit.prevent="editMode? form.put(route('events.update', form.id)) : form.post(route('events.store'))">
-                            <div>
+                        <form
+                            @submit.prevent="editMode ? form.put(route('events.update', form.id)) : form.post(route('events.store'))">
+                            <div class="my-6">
                                 <InputLabel for="title" value="Title" />
 
                                 <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title" required
@@ -95,8 +96,8 @@ function destroy(id) {
                             <div class="my-6">
                                 <InputLabel for="event_date" value="Date de l'évènement" />
 
-                                <TextInput id="event_date" class="mt-2" type="date" name="event_date" required
-                                    v-model="form.event_date" />
+                                <TextInput id="event_date" class="mt-2" type="date" name="event_date"
+                                    requiredv-model="form.event_date" />
 
                                 <div v-if="form.event_date" class="text-sm"> La date actuel est : {{ form.event_date }}
                                 </div>
@@ -131,16 +132,8 @@ function destroy(id) {
                         </div>
                         <form inline @submit.prevent="dateRangePickerSubmit">
                             <div>
-
-                                <!--<vue-tailwind-datepicker v-model="dateValue"/>-->
-
-                            <!--<div class="ml-3"><DateRangePicker v-model="dateForm"></DateRangePicker></div>-->
-
-                            <!--<DateRangePicker class="ml-3"/> -->
-
-                            <DateRangePicker v-model="selectedDates" :selected-dates="selectedDates" @update:selected-dates="selectedDates = $event" class="ml-3"/>
-                            <p>Date sélectionnée: {{ selectedDates }}</p>
-
+                                <DateRangePicker v-model="selectedDates" :selected-dates="selectedDates"
+                                    @update:selected-dates="selectedDates = $event" class="ml-3" />
 
                                 <PrimaryButton type="submit" :class="{ 'opacity-25': form.processing }"
                                     :disabled="form.processing">

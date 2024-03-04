@@ -1,13 +1,3 @@
-<template>
-  <div class="connected-calendars">
-    <PrimaryButton @click="toggleVisibility">Filtre des évènements</PrimaryButton>
-    <div class="calendars" v-if="areCalendarsVisible">
-      <Calendar v-model:selectedDates="selectedDates" @update:selectedDates="updateDates"/>
-      <Calendar v-model:selectedDates="selectedDates" @update:selectedDates="updateDates"/>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, provide, defineProps, defineEmits } from 'vue';
 import Calendar from './Calendar.vue';
@@ -20,8 +10,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['update:selectedDates']);
-
+// Variable pour la visibilité des calendriers
 const areCalendarsVisible = ref(false);
 const selectedDates = ref([]);
 
@@ -29,13 +18,27 @@ const toggleVisibility = () => {
   areCalendarsVisible.value = !areCalendarsVisible.value;
 };
 
+// Émission d'un événement pour mettre à jour les dates sélectionnées
+const emits = defineEmits(['update:selectedDates']);
+
 const updateDates = (newDates) => {
   emits('update:selectedDates', newDates);
 };
 
+// Fournit les dates sélectionnées aux composants enfants
 provide('selectedDates', selectedDates);
 
 </script>
+
+<template>
+  <div class="connected-calendars">
+    <PrimaryButton @click="toggleVisibility">Filtre des évènements</PrimaryButton>
+    <div class="calendars" v-if="areCalendarsVisible">
+      <Calendar v-model:selectedDates="selectedDates" @update:selectedDates="updateDates"/>
+      <Calendar v-model:selectedDates="selectedDates" @update:selectedDates="updateDates"/>
+    </div>
+  </div>
+</template>
 
 
 <style scoped>
