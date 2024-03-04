@@ -1,4 +1,8 @@
 <script setup>
+/**
+ * Composant permettant d'afficher un calendrier avec la possibilité de sélectionner des dates
+ *
+ */
 import { ref, computed, watch, inject, defineProps, defineEmits } from 'vue';
 
 // Définition des propriétés et événements du composant
@@ -9,6 +13,11 @@ const props = defineProps({
     },
 });
 
+/**
+ * Un tableau de dates sélectionnées est envoyé au composant parent
+ *
+ * @event update:selectedDates
+ */
 const emits = defineEmits(['update:selectedDates']);
 
 // Initialisation des variables de date
@@ -124,6 +133,7 @@ const isDateHighlighted = (date, month, year) => {
     return false;
 };
 
+//Watcher  pour selectedDates, pour la mise à jour du calendrier en réponse à des changements dans les dates sélectionnées
 watch(selectedDates, (newSelectedDates, oldSelectedDates) => {
     // Logique pour mettre à jour le calendrier en réponse aux changements dans les dates sélectionnées
     //console.log('Anciennes dates sélectionnées :', oldSelectedDates);

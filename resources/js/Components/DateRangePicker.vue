@@ -21,7 +21,11 @@ const toggleVisibility = () => {
 // Émission d'un événement pour mettre à jour les dates sélectionnées
 const emits = defineEmits(['update:selectedDates']);
 
-const updateDates = (newDates) => {
+/**
+ * Méthode responsable de mettre à jour les jours sélectionnés.
+ * @param {Array} newDates - Nouvelles dates sélectionnées.
+ */
+ const updateDates = (newDates) => {
   emits('update:selectedDates', newDates);
 };
 

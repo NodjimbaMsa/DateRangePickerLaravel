@@ -29,13 +29,14 @@ const editMode = ref(false);
 // Référence pour stocker les dates sélectionnées
 const selectedDates = ref([]);
 
-// Formulaire principal pour la création ou la mise à jour d'événements
+// Formulaire pour la création ou la mise à jour d'événements
 const form = useForm({
     id: "",
     title: "",
     event_date: ""
 });
 
+// Formulaire pour la plage de dates
 const dateForm = useForm({
     startDate: "",
     endDate: ""
@@ -67,7 +68,10 @@ function destroy(id) {
 </script>
 
 <template>
-    <Head title="Events" />
+
+    <Head>
+        <title>Events</title>
+    </Head>
 
     <AuthenticatedLayout>
         <template #header>
@@ -87,8 +91,8 @@ function destroy(id) {
                             <div class="my-6">
                                 <InputLabel for="title" value="Title" />
 
-                                <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title" required
-                                    autofocus autocomplete="username" />
+                                <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title"
+                                    required autofocus autocomplete="username" />
 
                                 <InputError class="mt-2" :message="form.errors.title" />
                             </div>
@@ -142,7 +146,7 @@ function destroy(id) {
                             </div>
                         </form>
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" aria-describedby="table-event">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
