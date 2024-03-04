@@ -20,15 +20,6 @@ const props = defineProps({
     }
 });
 
-// Variable pour contrôler l'affichage du modal
-const showModal = ref(false);
-
-// Variable pour indiquer si l'on modifie ou non l'évènement
-const editMode = ref(false);
-
-// Référence pour stocker les dates sélectionnées
-const selectedDates = ref([]);
-
 // Formulaire pour la création ou la mise à jour d'événements
 const form = useForm({
     id: "",
@@ -42,6 +33,17 @@ const dateForm = useForm({
     endDate: ""
 });
 
+const dateValue = ref({
+    startDate: "",
+    endDate: ""
+});
+
+// Variable pour contrôler l'affichage du modal
+const showModal = ref(false);
+
+// Variable pour indiquer si l'on modifie ou non l'évènement
+const editMode = ref(false);
+
 // Fonction pour ouvrir la modal en mode édition
 const editModal = (event) => {
     showModal.value = true;
@@ -50,6 +52,9 @@ const editModal = (event) => {
     form.title = event.title;
     form.event_date = event.event_date;
 }
+
+// Référence pour stocker les dates sélectionnées
+const selectedDates = ref([]);
 
 // Fonction pour soumettre la plage de dates et filtrer les événements à venir sur l'intervalle choisi
 const dateRangePickerSubmit = () => {
@@ -88,7 +93,7 @@ function destroy(id) {
 
                         <form
                             @submit.prevent="editMode ? form.put(route('events.update', form.id)) : form.post(route('events.store'))">
-                            <div class="my-6">
+                            <div>
                                 <InputLabel for="title" value="Title" />
 
                                 <TextInput id="title" type="text" class="mt-1 block w-full" v-model="form.title"
@@ -100,8 +105,8 @@ function destroy(id) {
                             <div class="my-6">
                                 <InputLabel for="event_date" value="Date de l'évènement" />
 
-                                <TextInput id="event_date" class="mt-2" type="date" name="event_date"
-                                    requiredv-model="form.event_date" />
+                                <TextInput id="event_date" class="mt-2" type="date" name="event_date" required
+                                    v-model="form.event_date" />
 
                                 <div v-if="form.event_date" class="text-sm"> La date actuel est : {{ form.event_date }}
                                 </div>
@@ -136,8 +141,11 @@ function destroy(id) {
                         </div>
                         <form inline @submit.prevent="dateRangePickerSubmit">
                             <div>
+
                                 <DateRangePicker v-model="selectedDates" :selected-dates="selectedDates"
                                     @update:selected-dates="selectedDates = $event" class="ml-3" />
+                                <p>Date sélectionnée: {{ selectedDates }}</p>
+
 
                                 <PrimaryButton type="submit" :class="{ 'opacity-25': form.processing }"
                                     :disabled="form.processing">
@@ -146,7 +154,7 @@ function destroy(id) {
                             </div>
                         </form>
                         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400" aria-describedby="table-event">
+                            <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                 <thead
                                     class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
